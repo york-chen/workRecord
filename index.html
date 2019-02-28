@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<meta name="keywords" content="模切,模切易得通,人才,材料,设备,加工,资讯">
+<meta name="description" content="模切易得通官方网站；模切行业采购，工艺，一站式服务平台">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<head>
+    <title><%= data.title %></title>
+    <meta charset="utf-8">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=1080, user-scalable=no, target-densitydpi=device-dpi">
+    <meta http-equiv="cleartype" content="on">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="format-detection" content="email=no">
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <!--忽略页面中自动识别电话号码与邮箱, -->
+    <meta name="format-detection" content="telephone=no, email=no"/>
+    <!-- 启用360浏览器的极速模式(webkit) -->
+    <meta name="renderer" content="webkit">
+    <!-- 避免IE使用兼容模式 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- 针对手持设备优化，主要是针对一些老的不识别viewport的浏览器，比如黑莓 -->
+    <meta name="HandheldFriendly" content="true">
+    <!-- 微软的老式浏览器 -->
+    <meta name="MobileOptimized" content="320">
+    <!-- uc强制竖屏 -->
+    <meta name="screen-orientation" content="portrait">
+    <!-- QQ强制竖屏 -->
+    <meta name="x5-orientation" content="portrait">
+    <!-- UC强制全屏 -->
+    <meta name="full-screen" content="yes">
+    <!-- QQ强制全屏 -->
+    <meta name="x5-fullscreen" content="true">
+    <!-- UC应用模式 -->
+    <meta name="browsermode" content="application">
+    <!-- QQ应用模式 -->
+    <meta name="x5-page-mode" content="app">
+    <!-- windows phone 点击无高光 -->
+    <meta name="msapplication-tap-highlight" content="no">
+    <!-- 防止缓存 -->
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Cache-Control" content="no-cache"/>
+    <meta http-equiv="Expires" content="0"/>
+    <meta http-equiv="Cache" content="no-cache">
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+
+        body {
+            background-image: url("./images/bg.jpg");
+            background-size: cover;
+            padding-top: 1px;
+            overflow: hidden;
+        }
+
+        .content {
+            position: absolute;
+            top: 28%;
+            width: 100%;
+        }
+
+        .qrcode {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .qrcode img {
+            width: 300px;
+        }
+
+        .tips {
+            color: #ffffff;
+            font-size: 35px;
+            margin-top: 15px;
+        }
+
+        .code {
+            color: #ffffff;
+            font-size: 60px;
+            text-align: center;
+        }
+
+        .txt {
+            vertical-align: middle;
+            font-family: cursive;
+        }
+
+        .num {
+            font-size: 90px;
+            color: red;
+            vertical-align: middle;
+        }
+
+        .btn-wrap {
+            text-align: center;
+            margin-top: 30px;
+            color: #ffffff;
+        }
+
+        .btn {
+            font-size: 45px;
+            background-color: red;
+            width: 80%;
+            margin: 0 auto;
+            border-radius: 60px;
+            padding: 25px;
+        }
+
+        .copy {
+            background-color: rgba(255, 255, 255, 0.3);
+            vertical-align: middle;
+            font-size: 40px;
+            padding: 8px 70px;
+            border: none;
+            outline: none;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+<a id="selector" style="opacity: 0">{$code}</a>
+<div class="content">
+    <div class="code">0
+        <span class="txt">邀请码</span>
+        &nbsp;&nbsp;
+        <span class="num">{$code}</span>
+        &nbsp;&nbsp;
+        <!--<span class="copy" id="realCode" data-clipboard-text="{$code}">复制</span>-->
+        <button class="copy" id="realCode">复制</button>
+    </div>
+    <div class="qrcode">
+        <img src="./images/qrcode.jpg" alt="">
+        <div class="tips">长按或扫二维码下载</div>
+    </div>
+    <div class="btn-wrap">
+        <div class="btn" onclick="download()">
+            立即下载
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var aEle = document.querySelector('#realCode');
+    aEle.addEventListener('click', function () {
+        var copyDOM = document.querySelector('#selector');
+        var range = document.createRange();
+        range.selectNode(copyDOM);
+        window.getSelection().addRange(range);
+        var flag = document.execCommand('copy');
+        if (flag) {
+            alert('复制成功');
+        } else {
+            alert('暂不支持该功能');
+        }
+        window.getSelection().removeAllRanges();
+    }, false);
+    function download() {
+        window.open('http://wz.suikan.top/?6m');
+        return false
+    }
+</script>
+</body>
+</html>
