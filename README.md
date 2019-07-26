@@ -7,3 +7,21 @@
 
 3，deepclone是一个深度拷贝的代码例子，不想每次都要写，记录一下
 4，利用json.parse(json.stringify())这种方法来进行深度拷贝也是有不少弊端的。详情参考https://www.jianshu.com/p/b084dfaad501
+5，vue做权限验证会用到vue-router的  addRoutes方法，但是当用户登出之后切换账号登录，会有坑，这个时候利用github大神偏方解决
+      const createRouter = () => new VueRouter({
+          mode: 'history',
+          routes: [
+              {
+                  path: '/login',
+                  component: HomeLayout,
+                  children: HomeRoutes
+              }
+          ]
+      });
+      const routes = createRouter();
+
+      function resetRouter() {
+          const newRouter = createRouter();
+          routes.matcher = newRouter.matcher // the relevant part
+      }
+将routes的matcher重置为初始值即可
