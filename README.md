@@ -26,7 +26,7 @@
       }
 将routes的matcher重置为初始值即可
 
-做项目时遇到使用循环组件，因为模式一样，只有数据不一样。但是按照普通的组件调用格式来做时报错，错误信息为Unknown custom element: <pop> - did you register the component correctly? For recursive components, make sure to provide the "name" option.
+6,做项目时遇到使用循环组件，因为模式一样，只有数据不一样。但是按照普通的组件调用格式来做时报错，错误信息为Unknown custom element: <pop> - did you register the component correctly? For recursive components, make sure to provide the "name" option.
 
 查询了官方文档，还有其他的资料，发现是循环调用组件时，组件比vue实例后创建，官方文档里写组件必须先于实例化引入，所以说组件没有正确的引入。
 
