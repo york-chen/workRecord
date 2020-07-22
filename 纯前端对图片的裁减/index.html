@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+<link rel="stylesheet" type="text/css" href="./node_modules//cropperjs//dist/cropper.min.css" />
+<style>
+    .previewBox,
+    .previewBoxRound {
+        box-shadow: 0 0 5px #adadad;
+        width: 100px;
+        height: 100px;
+        margin-top: 30px;
+        overflow: hidden;
+        /*这个超出设置为隐藏很重要，否则就会整个显示出来了*/
+    }
+
+    .previewBoxRound {
+        border-radius: 50%;
+        /*设置为圆形*/
+    }
+
+    #fileInput {
+        display: none;
+    }
+
+    .img-wrap {
+        height: 450px;
+        width: 450px;
+        box-shadow: 0 0 5px #adadad;
+    }
+</style>
+</head>
+
+<body>
+    <input type="file" id="fileInput">
+    <button id="btn">点击选择图片</button>
+    <div class="img-wrap">
+        <img id="img" alt="">
+    </div>
+    <div class="btn-wrap">
+        <button onclick="zoom()">放大</button>
+        <button onclick="scale()">缩小</button>
+        <button onclick="fanzhuan()">翻转</button>
+        <button onclick="rotate()">左旋</button>
+        <button onclick="_rotate()">右旋</button>
+        <button onclick="reset()">重置</button>
+        <button onclick="getData()">完成</button>
+    </div>
+    <div class="previewText">裁剪预览</div>
+    <div class="previewBox"></div>
+    <div class="previewBoxRound"></div>
+    <img src="" id="view" alt="">
+</body>
+<script src="./node_modules/cropperjs/dist/cropper.min.js"></script>
+<script>
+    let eleBtn = document.querySelector('#btn'),
+        eleFileInput = document.querySelector('#fileInput'),
+        eleImg = document.querySelector('#img'),
+        maxImgWidth = 1500,
+        cropper = null;
+    eleBtn.addEventListener('click', function () {
+        eleFileInput.click()
+    })
+    eleFileInput.addEventListener('change', function (event) {
+        debugger
+        let file = event.target.files[0];
+        let fileReader = new FileReader();
+        fileReader.onload = function (e) {
+            debugger
+            eleImg.src = e.target.result;
+            cropper = new Cropper(eleImg, {
+                aspectRatio: 1 / 1,
+                autoCropArea: 0.5,
+                viewMode: 2,
+                minContainerWidth: 100,
+                minContainerHeight: 100,
+                dragMode: 'move',
+                // movable:false,
+                // rotatable:false,
+                // scalable:false,
+                zoomOnWheel: false,
+                preview: [document.querySelector('.previewBox'),
+                    document.querySelector('.previewBoxRound')
+                ]
+            });
+        }
+        fileReader.readAsDataURL(file);
+    })
+
+    function reset() {
+        cropper.reset();
+    }
+
+    function zoom() {
+        cropper.zoom(0.1);
+    }
+
+    function scale() {
+        cropper.zoom(-0.1);
+    }
+    function fanzhuan(){
+        cropper.scale(-1,1);
+    }
+    function rotate() {
+        cropper.rotate(15)
+    }
+
+    function _rotate() {
+        cropper.rotate(-15)
+    }
+
+    function getData() {
+        let data = cropper.getData(true);
+        console.log(data);
+        this.caijian(data);
+    }
+    function compress(){
+
+    }
+    function caijian(data) {
+        let cvs = document.createElement('canvas'),
+            destX = 0,
+            destY = 0,
+            width = eleImg.naturalWidth,
+            height = eleImg.naturalHeight;
+        cvs.width = width;
+        cvs.height = height;
+        let ctx = cvs.getContext('2d');
+        if (data.scaleX === -1 || data.scaleY === -1) {
+            destX = data.scaleX === -1 ? width * -1 : 0; // Set x position to -100% if flip horizontal
+            destY = data.scaleY === -1 ? height * -1 : 0; // Set y position to -100% if flip vertical
+            ctx.scale(data.scaleX, data.scaleY);
+        }
+        ctx.drawImage(eleImg, destX, destY);
+        //rotate
+        if (data.rotate !== 0) {
+            let newCanvas = document.createElement("canvas"),
+                deg = data.rotate / 180 * Math.PI;
+            //旋转之后，导致画布变大，需要计算一下
+            newCanvas.width = Math.abs(width * Math.cos(deg)) + Math.abs(height * Math.sin(deg));
+            newCanvas.height = Math.abs(width * Math.sin(deg)) + Math.abs(height * Math.cos(deg));
+            let newContext = newCanvas.getContext("2d");
+            newContext.save();
+            newContext.translate(newCanvas.width / 2, newCanvas.height / 2);
+            newContext.rotate(deg);
+            destX = -width / 2,
+                destY = -height / 2;
+            //将第一个canvas的内容在经旋转后的坐标系画上来
+            newContext.drawImage(cvs, destX, destY);
+            newContext.restore();
+            ctx = newContext;
+            cvs = newCanvas;
+        }
+        let imageData = ctx.getImageData(data.x, data.y, data.width, data.height);
+        cvs.width = data.width;
+        cvs.height = data.height;
+        ctx.putImageData(imageData, 0, 0);
+        let dataUrl = cvs.toDataURL("image/png");
+        document.querySelector('#view').src = dataUrl
+    }
+</script>
+
+</html>
