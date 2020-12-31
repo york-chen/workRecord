@@ -4,6 +4,8 @@
 使用了 webpack-spritesmith 插件，网上一搜一大堆教程
 
 //雪碧图，没办法，没有svg资源，就搞了个图片的
+//这是写在 vue-cli的配置文件 vue-config.js的  chainWebpack模块
+```
     config
       .plugin("webpack-spritesmith")
       .use(SpritesmithPlugin)
@@ -41,3 +43,4 @@
             }
           })
       );
+      ```
