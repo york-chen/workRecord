@@ -1,7 +1,7 @@
 elementui的scss 只提供了 6中颜色的button类型，当你的项目中这6中已经不满足需求的时候 就需要自己去添加啦
 
 首先是覆盖样式文件，然后增加自己的 全局变量，
-
+```
 /* 改变主题色变量 */
 $--color-primary: #386CF8;
 $--color-info:#A3ACC8;
@@ -47,3 +47,4 @@ $--button-gray-font-color: $--color-white !default;
         }
     }
 }
+```
