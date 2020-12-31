@@ -1,7 +1,7 @@
 原文地址 转载自 https://www.cnblogs.com/kgdxpr/p/3587878.html
 
 
-
+```
 nginx.conf
 
 location / {
